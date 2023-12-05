@@ -21,6 +21,7 @@ namespace DesafioFundamentos.Models
             if(!VerifyPlateRegex(plate))
             {
                 Console.WriteLine("A placa do veículo digitado está no formato invalido!");
+                return;
             }
             vehicles.Add(plate);
             Console.WriteLine($"Veículo de placa '{plate}' foi cadastrado com sucesso!");
@@ -30,23 +31,29 @@ namespace DesafioFundamentos.Models
         {
             Console.WriteLine("Digite a placa do veículo para remover:");
 
-            // Pedir para o usuário digitar a placa e armazenar na variável placa
-            // *IMPLEMENTE AQUI*
-            string plate = "";
+            string plate = Console.ReadLine().ToUpper();
+            if (!VerifyPlateRegex(plate))
+            {
+                Console.WriteLine("A placa do veículo digitado está no formato invalido!");
+                return;
+            }
 
             // Verifica se o veículo existe
             if (vehicles.Any(x => x.ToUpper() == plate.ToUpper()))
             {
                 Console.WriteLine("Digite a quantidade de horas que o veículo permaneceu estacionado:");
 
-                // TODO: Pedir para o usuário digitar a quantidade de horas que o veículo permaneceu estacionado,
-                // TODO: Realizar o seguinte cálculo: "precoInicial + precoPorHora * horas" para a variável valorTotal                
-                // *IMPLEMENTE AQUI*
                 int hours = 0;
-                decimal totalValue = 0; 
-
-                // TODO: Remover a placa digitada da lista de veículos
-                // *IMPLEMENTE AQUI*
+                try
+                {
+                    hours = Convert.ToInt32(Console.ReadLine());
+                } catch(FormatException ex)
+                {
+                    Console.WriteLine("Você digitou o formato de hora invalida!");
+                    return;
+                }
+                decimal totalValue = initialPrice + pricePerHour * hours;
+                vehicles.Remove(plate);
 
                 Console.WriteLine($"O veículo {plate} foi removido e o preço total foi de: R$ {totalValue}");
             }
